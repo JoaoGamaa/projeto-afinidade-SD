@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#335cff" />
+        <title>Afinidade — seu gosto, novas descobertas</title>
+        <link rel="stylesheet" href="/styles.css" />
+        <script src="/app.js" type="module"></script>
+    </head>
+    <body>
+        <header class="topbar">
+            <a href="/" class="brand" aria-label="Afinidade, página inicial"><span>Afinidade</span></a>
+            <span class="tagline">Descubra pelo que você gosta.</span>
+            <div class="profile-control">
+                <label for="profile">Perfil ativo</label
+                ><select id="profile" disabled aria-label="Perfil ativo">
+                    <option>Carregando…</option>
+                </select>
+            </div>
+        </header>
+        <main>
+            <div class="intro">
+                <h1>Seu gosto. Novas descobertas.</h1>
+                <p>Avalie os artistas e encontre o próximo som para você.</p>
+            </div>
+            <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+            <div id="discard-prompt" class="notice" role="alert" hidden>
+                <p>Você tem alterações não salvas. Deseja descartá-las para continuar?</p>
+                <button id="discard-yes" type="button" class="primary">Descartar alterações</button
+                ><button id="discard-no" type="button" class="text-button">Continuar editando</button>
+            </div>
+            <div class="workspace">
+                <section class="panel ratings-panel" aria-labelledby="ratings-title">
+                    <h2 id="ratings-title">Suas avaliações</h2>
+                    <p class="legend">
+                        0 = não conheço · 1 = não gosto · 2 = gosto muito pouco · 3 = gosto · 4 = gosto muito
+                    </p>
+                    <form id="ratings-form">
+                        <div id="ratings" class="ratings">
+                            <p class="empty">Conectando ao servidor musical…</p>
+                        </div>
+                        <div class="save-row">
+                            <button class="primary" id="save" type="submit" disabled>Salvar avaliações</button
+                            ><span id="progress" class="muted"></span>
+                        </div>
+                    </form>
+                </section>
+                <aside class="results">
+                    <section class="panel" aria-labelledby="recommend-title">
+                        <h2 id="recommend-title">Para sua próxima descoberta</h2>
+                        <div id="recommendations" class="result-list">
+                            <p class="empty">Suas recomendações aparecerão aqui.</p>
+                        </div>
+                    </section>
+                    <section class="panel" aria-labelledby="neighbors-title">
+                        <div class="section-heading">
+                            <h2 id="neighbors-title">Gostos próximos</h2>
+                            <label class="neighbor-control" title="Quantidade de vizinhos usados"
+                                ><span>Vizinhos</span
+                                ><select id="neighbors-count" aria-label="Quantidade de vizinhos">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option selected>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                    <option>6</option>
+                                    <option>7</option>
+                                    <option>8</option>
+                                    <option>9</option>
+                                </select></label
+                            >
+                        </div>
+                        <div id="neighbors" class="result-list">
+                            <p class="empty">Aguardando os perfis.</p>
+                        </div>
+                    </section>
+                    <section class="explanation" aria-labelledby="how-title">
+                        <h2 id="how-title">Como funciona</h2>
+                        <p>
+                            Comparamos apenas artistas avaliados pelos dois perfis. Quanto menor a distância,
+                            mais próximos são os gostos.
+                        </p>
+                        <div
+                            class="formula"
+                            aria-label="Distância igual à raiz quadrada da soma das diferenças ao quadrado"
+                        >
+                            d(A,B) = √Σ(Aᵢ − Bᵢ)²
+                        </div>
+                        <details>
+                            <summary>Entenda a recomendação</summary>
+                            <p>
+                                Os vizinhos são ordenados pela distância euclidiana. Empates favorecem mais
+                                avaliações em comum e depois o menor código de usuário.
+                            </p>
+                            <p>
+                                Para artistas que você ainda não avaliou, calculamos a média das notas dos
+                                vizinhos com peso 1/(1 + distância). Apenas médias a partir de 3 viram
+                                sugestões. Notas zero não entram no cálculo.
+                            </p>
+                        </details>
+                    </section>
+                </aside>
+            </div>
+            <footer>
+                <span id="catalog-count">Carregando catálogo…</span
+                ><button id="reload" type="button" class="text-button">Recarregar dados do servidor</button>
+            </footer>
+        </main>
+        <noscript>Ative o JavaScript para avaliar artistas e consultar as recomendações.</noscript>
+    </body>
+</html>
